@@ -1,0 +1,3 @@
+[submodule "nextapp"]
+    path = nextapp
+    url = https://github.com/yourusername/nextapp.git
