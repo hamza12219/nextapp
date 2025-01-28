@@ -198,7 +198,7 @@ const Home = () => {
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  {article.date.toLocaleDateString()}
+                  {article.date}
                 </p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
