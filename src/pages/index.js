@@ -32,7 +32,7 @@ useEffect(() => {
  // Fetch articles whenever the keywords or location change (debounced to optimize API calls)
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      fetchFilteredArticles();
+     handleSearch();
     }, 500);  // Delay the request by 500ms (debouncing)
 
     return () => clearTimeout(delayDebounceFn); // Cleanup if the component is unmounted
@@ -41,7 +41,7 @@ useEffect(() => {
   // Function to handle Enter key press and trigger filtering
   const handleKeyUp = (e) => {
     if (e.key === 'Enter') {
-      fetchFilteredArticles();  // Trigger the fetch when Enter key is pressed
+     handleSearch();  // Trigger the fetch when Enter key is pressed
     }
   };
 
@@ -128,7 +128,7 @@ const clearDateRange = () => {
               type="text"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-               onKeyUp={handleKeyUp} 
+               onKeyUp={handleSearch} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Search for events"
             />
@@ -141,7 +141,7 @@ const clearDateRange = () => {
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              onKeyUp={handleKeyUp} 
+              onKeyUp={handleSearch} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Enter location"
             />
