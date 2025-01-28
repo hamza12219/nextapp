@@ -19,7 +19,7 @@ const Home = () => {
   // Fetch all articles on initial load
   useEffect(() => {
     const fetchArticles = async () => {
-      const response = await fetch('/api/searchArticles'); // No filter, get all articles
+      const response = await fetch('/api/searchTravel'); // No filter, get all articles
       const articles = await response.json();
       setFilteredArticles(articles);
     };
