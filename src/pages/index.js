@@ -6,25 +6,26 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
-// Sample articles data
-const articles = [
-  { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-  { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-  { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-  { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-  { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-];
-
 const Home = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [filteredArticles, setFilteredArticles] = useState(articles);
+  const [filteredArticles, setFilteredArticles] = useState([]);
   const [keywords, setKeywords] = useState('');
   const [location, setLocation] = useState('');
-
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+
+  // Fetch all articles on initial load
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const response = await fetch('/api/searchArticles'); // No filter, get all articles
+      const articles = await response.json();
+      setFilteredArticles(articles);
+    };
+
+    fetchArticles();
+  }, []);
 
   // Toggle dropdown visibility for the calendar
   const toggleCalendar = () => {
@@ -49,7 +50,7 @@ const Home = () => {
     };
   }, []);
 
-  // Handle search/filter with async API call
+  // Handle search/filter logic
   const handleSearch = async () => {
     const params = new URLSearchParams();
 
@@ -66,23 +67,23 @@ const Home = () => {
       params.append("location", location);
     }
 
-    // Fetch filtered articles based on the search parameters
-    const response = await fetch(`/api/searchTravel?${params.toString()}`);
+    // Make an API call with all the filters
+    const response = await fetch(`/api/searchArticles?${params.toString()}`);
     const filtered = await response.json();
 
-    // Update filteredArticles state
+    // Update the filteredArticles state with the filtered data
     setFilteredArticles(filtered);
   };
 
-  // Reset date filters and clear the search results
+  // Reset the date filter and clear the filtered articles
   const clearDateRange = () => {
     setStartDate(null);
     setEndDate(null);
-    setFilteredArticles(articles); // Reset to the original list of articles
-    setDropdownOpen(false); // Close the date picker
+    setFilteredArticles([]); // Reset articles to original list
+    setDropdownOpen(false); // Close the date range picker
   };
 
-  // Handle cancel action on the date range picker
+  // Handle cancel action (just closes the picker without applying any changes)
   const cancelDateRange = () => {
     setDropdownOpen(false); // Simply close the date picker
   };
@@ -90,7 +91,7 @@ const Home = () => {
   return (
     <div>
       <Menu /> {/* Include the Menu Component */}
-
+      
       <div className="container mx-auto mt-5 px-4">
         <h1 className="text-4xl font-bold mb-8 text-black text-center opacity-80">
           Looking for a new adventure this weekend in Orange County, California?
@@ -115,7 +116,7 @@ const Home = () => {
 
           {/* Location Search */}
           <div className="flex flex-col">
-            <label className="mb-2 text-sm text-gray-600">Location</label>
+            <label className="mb-2 text-sm text-gray-600 text-black">Location</label>
             <input
               type="text"
               value={location}
@@ -126,7 +127,7 @@ const Home = () => {
           </div>
 
           {/* Date Range Picker */}
-          <div className="flex flex-col relative">
+          <div className="flex flex-col relative ">
             <label className="mb-2 text-sm text-gray-600">Date Range</label>
             <div className="flex items-center">
               <input
@@ -139,7 +140,7 @@ const Home = () => {
               />
             </div>
             {isDropdownOpen && (
-              <div ref={dropdownRef} className="absolute mt-2 bg-white shadow-lg rounded-md w-64 p-4 z-50">
+              <div ref={dropdownRef} className="absolute wid mt-2 bg-white shadow-lg rounded-md w-64 p-4 z-50">
                 {/* Date Range Picker Box */}
                 <DatePicker
                   selected={startDate}
@@ -173,6 +174,7 @@ const Home = () => {
                   >
                     Cancel
                   </button>
+
                   <button
                     onClick={handleSearch}
                     className="bg-blue-500 text-white px-4 py-2 rounded-md"
@@ -186,16 +188,17 @@ const Home = () => {
         </div>
 
         {/* Grid of Filtered Articles */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ margin: 'auto', width: '90%' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{margin:'auto', width: '90%'}}>
           {filteredArticles.map((article) => (
             <div key={article.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <img src={article.image} alt={article.title} className="w-full h-56 object-cover" />
+              {/* Image */}
+              <img src={article.image} alt={article.title} className="w-full h-56 object-cover h-style" />
               <div className="p-6">
                 <h5 className="text-black text-2xl font-semibold mb-4">{article.title}</h5>
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  {article.time}
+                  {article.date.toLocaleDateString()}
                 </p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
