@@ -4,11 +4,11 @@ export default async function handler(req, res) {
 
     // Example real articles (this should be replaced by actual database logic in production)
     const articles = [
-      { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), location: "24200 Dana Point Harbor, Dana Point, CA" },
-      { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "b.jpg", date: new Date(2025, 1, 5), location: "24200 Dana Point Harbor, Dana Point, CA" },
-      { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "c.jpg", date: new Date(2025, 1, 10), location: "24200 Dana Point Harbor, Dana Point, CA" },
-      { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "d.jpg", date: new Date(2025, 1, 15), location: "24200 Dana Point Harbor, Dana Point, CA" },
-      { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "e.jpg", date: new Date(2025, 1, 20), location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-11-2024 - 10-11-2024", location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5), time: "01-11-2024 - 10-11-2024",location: "new york" },
+      { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10),time: "01-11-2024 - 10-11-2024", location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15),time: "01-11-2024 - 10-11-2024", location: "LA" },
+      { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 20),time: "01-11-2024 - 10-11-2024", location: "24200 Dana Point Harbor, Dana Point, CA" },
     ];
 
     // Parse the startDate and endDate if provided
