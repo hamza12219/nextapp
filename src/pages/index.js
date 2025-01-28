@@ -1,3 +1,20 @@
+import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+import Menu from '../components/Menu'; 
+import DatePicker from 'react-datepicker'; 
+import "react-datepicker/dist/react-datepicker.css"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+
+// Sample articles data
+const articles = [
+  { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+];
+
 const Home = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
@@ -5,6 +22,7 @@ const Home = () => {
   const [filteredArticles, setFilteredArticles] = useState(articles);
   const [keywords, setKeywords] = useState('');
   const [location, setLocation] = useState('');
+
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -31,46 +49,40 @@ const Home = () => {
     };
   }, []);
 
-  // Handle search/filter logic
-  const handleSearch = () => {
-    let filtered = articles;
+  // Handle search/filter with async API call
+  const handleSearch = async () => {
+    const params = new URLSearchParams();
 
-    // Filter by Keyword
+    if (startDate) {
+      params.append("startDate", startDate.toISOString());
+    }
+    if (endDate) {
+      params.append("endDate", endDate.toISOString());
+    }
     if (keywords) {
-      filtered = filtered.filter((article) =>
-        article.title.toLowerCase().includes(keywords.toLowerCase()) ||
-        article.excerpt.toLowerCase().includes(keywords.toLowerCase())
-      );
+      params.append("keywords", keywords);
     }
-
-    // Filter by Location
     if (location) {
-      filtered = filtered.filter((article) =>
-        article.location.toLowerCase().includes(location.toLowerCase())
-      );
+      params.append("location", location);
     }
 
-    // Filter by Date Range
-    if (startDate && endDate) {
-      filtered = filtered.filter((article) => {
-        const articleDate = article.date;
-        return articleDate >= startDate && articleDate <= endDate;
-      });
-    }
+    // Fetch filtered articles based on the search parameters
+    const response = await fetch(`/api/searchTravel?${params.toString()}`);
+    const filtered = await response.json();
 
-    // Update the filteredArticles state with the filtered data
+    // Update filteredArticles state
     setFilteredArticles(filtered);
   };
 
-  // Reset the date filter and clear the filtered articles
+  // Reset date filters and clear the search results
   const clearDateRange = () => {
     setStartDate(null);
     setEndDate(null);
-    setFilteredArticles(articles); // Reset articles to original list
-    setDropdownOpen(false); // Close the date range picker
+    setFilteredArticles(articles); // Reset to the original list of articles
+    setDropdownOpen(false); // Close the date picker
   };
 
-  // Handle cancel action (just closes the picker without applying any changes)
+  // Handle cancel action on the date range picker
   const cancelDateRange = () => {
     setDropdownOpen(false); // Simply close the date picker
   };
@@ -103,7 +115,7 @@ const Home = () => {
 
           {/* Location Search */}
           <div className="flex flex-col">
-            <label className="mb-2 text-sm text-gray-600 text-black">Location</label>
+            <label className="mb-2 text-sm text-gray-600">Location</label>
             <input
               type="text"
               value={location}
@@ -114,7 +126,7 @@ const Home = () => {
           </div>
 
           {/* Date Range Picker */}
-          <div className="flex flex-col relative ">
+          <div className="flex flex-col relative">
             <label className="mb-2 text-sm text-gray-600">Date Range</label>
             <div className="flex items-center">
               <input
@@ -127,7 +139,7 @@ const Home = () => {
               />
             </div>
             {isDropdownOpen && (
-              <div ref={dropdownRef} className="absolute wid mt-2 bg-white shadow-lg rounded-md w-64 p-4 z-50">
+              <div ref={dropdownRef} className="absolute mt-2 bg-white shadow-lg rounded-md w-64 p-4 z-50">
                 {/* Date Range Picker Box */}
                 <DatePicker
                   selected={startDate}
@@ -161,7 +173,6 @@ const Home = () => {
                   >
                     Cancel
                   </button>
-
                   <button
                     onClick={handleSearch}
                     className="bg-blue-500 text-white px-4 py-2 rounded-md"
@@ -184,7 +195,7 @@ const Home = () => {
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  {article.date.toLocaleDateString()}
+                  {article.time}
                 </p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
@@ -201,3 +212,5 @@ const Home = () => {
     </div>
   );
 };
+
+export default Home;
