@@ -128,7 +128,7 @@ const clearDateRange = () => {
               type="text"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-               onKeyUp={handleSearch} 
+               onKeyUp={handleKeyUp} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Search for events"
             />
@@ -141,7 +141,7 @@ const clearDateRange = () => {
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              onKeyUp={handleSearch} 
+              onKeyUp={handleKeyUp} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Enter location"
             />
