@@ -3,13 +3,15 @@ import { useState, useEffect, useRef } from 'react';
 import Menu from '../components/Menu'; 
 import DatePicker from 'react-datepicker'; 
 import "react-datepicker/dist/react-datepicker.css"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faLocationPin } from '@fortawesome/free-solid-svg-icons';
 
 const articles = [
-  { id: 1, title: "Blog Post 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15) },
-  { id: 2, title: "Blog Post 2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5) },
-  { id: 3, title: "Blog Post 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10) },
-  { id: 4, title: "Blog Post 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15) },
-  { id: 5, title: "Blog Post 5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15) },
+  { id: 1, title: "Event  1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 2, title: "Event  2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5) , time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA"  },
+  { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA"  },
+  { id: 5, title: "Event  5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15) , time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
 ];
 
 const Home = () => {
@@ -172,7 +174,8 @@ const Home = () => {
         </div>
 
         {/* Grid of Filtered Articles */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{margin:'auto', marginLeft:'30px'}}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={margin:' auto',
+    width: '90%'}}>
           {filteredArticles.map((article) => (
             <div key={article.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               {/* Image */}
@@ -180,8 +183,15 @@ const Home = () => {
               <div className="p-6">
                 <h5 className="text-black text-2xl font-semibold mb-4">{article.title}</h5>
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
+            <p className="text-gray-700 mb-4">
+            <FontAwesomeIcon icon={faClock} className="mr-2" />
+            {article.time}
+            </p>
+            <p className="text-gray-700 mb-4">
+             <FontAwesomeIcon icon={faLocationPin} className="mr-2" />
+            {article.location}</p>
                 <Link href={`/posts/${article.id}`} className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  Read more
+                  View Event
                 </Link>
               </div>
             </div>
