@@ -9,7 +9,7 @@ import { faClock, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 
 const articles = [
   { id: 1, title: "Event  1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
-  { id: 2, title: "Event  2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5) , time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
+  { id: 2, title: "Event  2", excerpt: "This post discusses the future of web development.", image: "a.jpg", date: new Date(2025, 1, 5) , time: "01-01-2024 - 10-01-2024", location: "new york" },
   { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 10), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA"  },
   { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA"  },
   { id: 5, title: "Event  5", excerpt: "This article dives into the world of artificial intelligence.", image: "a.jpg", date: new Date(2025, 1, 15) , time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
@@ -201,7 +201,7 @@ const handleSearch = async () => {
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
             <p className="text-gray-700 mb-4">
             <FontAwesomeIcon icon={faClock} className="mr-2" />
-            {article.date}
+            {article.date.toLocaleDateString()}
             </p>
             <p className="text-gray-700 mb-4">
            <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
