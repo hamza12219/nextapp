@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "e.jpg", date: new Date(2025, 1, 20), location: "24200 Dana Point Harbor, Dana Point, CA" },
     ];
 
-    // Filter logic
+    // If no filters are applied, return all articles
     const filteredArticles = articles.filter(article => {
       // Date Range Filter
       const articleDate = article.date;
