@@ -29,6 +29,21 @@ useEffect(() => {
 
   fetchArticles();
 }, []);
+ // Fetch articles whenever the keywords or location change (debounced to optimize API calls)
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchFilteredArticles();
+    }, 500);  // Delay the request by 500ms (debouncing)
+
+    return () => clearTimeout(delayDebounceFn); // Cleanup if the component is unmounted
+  }, [keywords, location]);
+
+  // Function to handle Enter key press and trigger filtering
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      fetchFilteredArticles();  // Trigger the fetch when Enter key is pressed
+    }
+  };
 
 
   // Toggle dropdown visibility for the calendar
@@ -113,6 +128,7 @@ const clearDateRange = () => {
               type="text"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
+               onKeyUp={handleKeyUp} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Search for events"
             />
@@ -125,6 +141,7 @@ const clearDateRange = () => {
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              onKeyUp={handleKeyUp} 
               className="p-3 border border-gray-300 rounded-md text-black"
               placeholder="Enter location"
             />
