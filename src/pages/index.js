@@ -15,17 +15,21 @@ const Home = () => {
   const [location, setLocation] = useState('');
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+  const [allArticles, setAllArticles] = useState([]);
+
 
   // Fetch all articles on initial load
-  useEffect(() => {
-    const fetchArticles = async () => {
-      const response = await fetch('/api/searchTravel'); // No filter, get all articles
-      const articles = await response.json();
-      setFilteredArticles(articles);
-    };
+useEffect(() => {
+  const fetchArticles = async () => {
+    const response = await fetch('/api/searchTravel'); // No filter, get all articles
+    const articles = await response.json();
+    setAllArticles(articles); // Store all articles
+    setFilteredArticles(articles); // Show all initially
+  };
 
-    fetchArticles();
-  }, []);
+  fetchArticles();
+}, []);
+
 
   // Toggle dropdown visibility for the calendar
   const toggleCalendar = () => {
@@ -75,13 +79,13 @@ const Home = () => {
     setFilteredArticles(filtered);
   };
 
-  // Reset the date filter and clear the filtered articles
-  const clearDateRange = () => {
-    setStartDate(null);
-    setEndDate(null);
-    setFilteredArticles([]); // Reset articles to original list
-    setDropdownOpen(false); // Close the date range picker
-  };
+const clearDateRange = () => {
+  setStartDate(null);
+  setEndDate(null);
+  setFilteredArticles(allArticles); // Reset to all articles
+  setDropdownOpen(false);
+};
+
 
   // Handle cancel action (just closes the picker without applying any changes)
   const cancelDateRange = () => {
