@@ -72,7 +72,7 @@ useEffect(() => {
     }
 
     // Make an API call with all the filters
-    const response = await fetch(`/api/searchArticles?${params.toString()}`);
+    const response = await fetch(`/api/searchTravel?${params.toString()}`);
     const filtered = await response.json();
 
     // Update the filteredArticles state with the filtered data
@@ -202,7 +202,7 @@ const clearDateRange = () => {
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faClock} className="mr-2" />
-                  {article.date}
+                  {article.time}
                 </p>
                 <p className="text-gray-700 mb-4">
                   <FontAwesomeIcon icon={faLocationArrow} className="mr-2" />
