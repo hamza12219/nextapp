@@ -52,15 +52,7 @@ const Home = () => {
   }, []);
 
   // Handle search/filter
-  const handleSearch = () => {
-    const filtered = articles.filter((article) => {
-      const matchesDateRange = startDate && endDate ? article.date >= startDate && article.date <= endDate : true;
-      const matchesKeyword = keywords ? article.title.toLowerCase().includes(keywords.toLowerCase()) : true;
-      const matchesLocation = location ? article.excerpt.toLowerCase().includes(location.toLowerCase()) : true;
-      return matchesDateRange && matchesKeyword && matchesLocation;
-    });
-    setFilteredArticles(filtered);
-  };
+  
 const handleSearch = async () => {
   const params = new URLSearchParams();
 
