@@ -61,6 +61,29 @@ const Home = () => {
     });
     setFilteredArticles(filtered);
   };
+const handleSearch = async () => {
+  const params = new URLSearchParams();
+
+  if (startDate) {
+    params.append("startDate", startDate.toISOString());
+  }
+  if (endDate) {
+    params.append("endDate", endDate.toISOString());
+  }
+  if (keywords) {
+    params.append("keywords", keywords);
+  }
+  if (location) {
+    params.append("location", location);
+  }
+
+  // Make an API call with all the filters
+  const response = await fetch(`/api/searchTravel?${params.toString()}`);
+  const filtered = await response.json();
+
+  // Update the filteredArticles state with the filtered data
+  setFilteredArticles(filtered);
+};
 
   // Reset the date filter and clear the filtered articles
   const clearDateRange = () => {
