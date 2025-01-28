@@ -4,7 +4,7 @@ import Menu from '../components/Menu';
 import DatePicker from 'react-datepicker'; 
 import "react-datepicker/dist/react-datepicker.css"; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, fa-location-pin } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faLocationPin } from '@fortawesome/free-solid-svg-icons';
 
 const articles = [
   { id: 1, title: "Event  1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), time: "01-01-2024 - 10-01-2024", location: "24200 Dana Point Harbor, Dana Point ,CA" },
@@ -188,7 +188,7 @@ const Home = () => {
             {article.time}
             </p>
             <p className="text-gray-700 mb-4">
-           <FontAwesomeIcon icon="fa-solid fa-location-pin" className="mr-2" />
+           <FontAwesomeIcon icon={faLocationPin} className="mr-2" />
             {article.location}
 </p>
                 <Link href={`/posts/${article.id}`} className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
