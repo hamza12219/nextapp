@@ -176,7 +176,7 @@ const Home = () => {
           {filteredArticles.map((article) => (
             <div key={article.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               {/* Image */}
-              <img src={article.image} alt={article.title} className="w-full h-56 object-cover" />
+              <img src={article.image} alt={article.title} className="w-full h-56 object-cover h-style" />
               <div className="p-6">
                 <h5 className="text-black text-2xl font-semibold mb-4">{article.title}</h5>
                 <p className="text-gray-700 mb-4">{article.excerpt}</p>
