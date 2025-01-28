@@ -1,10 +1,8 @@
-// api/searchArticles.js
-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     const { startDate, endDate, keywords, location } = req.query;
 
-    // Example real articles
+    // Example real articles (this should be replaced by actual database logic in production)
     const articles = [
       { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), location: "24200 Dana Point Harbor, Dana Point, CA" },
       { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "b.jpg", date: new Date(2025, 1, 5), location: "24200 Dana Point Harbor, Dana Point, CA" },
@@ -13,12 +11,16 @@ export default async function handler(req, res) {
       { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "e.jpg", date: new Date(2025, 1, 20), location: "24200 Dana Point Harbor, Dana Point, CA" },
     ];
 
+    // Parse the startDate and endDate if provided
+    const parsedStartDate = startDate ? new Date(startDate) : null;
+    const parsedEndDate = endDate ? new Date(endDate) : null;
+
     // If no filters are applied, return all articles
     const filteredArticles = articles.filter(article => {
       // Date Range Filter
       const articleDate = article.date;
-      const matchesDateRange = startDate && endDate
-        ? articleDate >= new Date(startDate) && articleDate <= new Date(endDate)
+      const matchesDateRange = parsedStartDate && parsedEndDate
+        ? articleDate >= parsedStartDate && articleDate <= parsedEndDate
         : true;
 
       // Keyword Filter
