@@ -1,43 +1,42 @@
+// api/searchArticles.js
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     const { startDate, endDate, keywords, location } = req.query;
 
-    // Example: Mocked data for travel packs
-    const allTravelPacks = [
-      { id: 1, title: "Beach Vacation", startDate: "2025-02-01", endDate: "2025-02-15", description: "A relaxing beach vacation.", location: "California" },
-      { id: 2, title: "Mountain Hiking", startDate: "2025-03-01", endDate: "2025-03-10", description: "An adventurous mountain hike.", location: "Colorado" },
-      { id: 3, title: "City Tour", startDate: "2025-02-15", endDate: "2025-02-20", description: "Explore the city's best spots.", location: "New York" }
+    // Example real articles
+    const articles = [
+      { id: 1, title: "Event 1", excerpt: "This is a fake blog post about technology.", image: "a.jpg", date: new Date(2025, 0, 15), location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 2, title: "Event 2", excerpt: "This post discusses the future of web development.", image: "b.jpg", date: new Date(2025, 1, 5), location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 3, title: "Event 3", excerpt: "This article dives into the world of artificial intelligence.", image: "c.jpg", date: new Date(2025, 1, 10), location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 4, title: "Event 4", excerpt: "This article dives into the world of artificial intelligence.", image: "d.jpg", date: new Date(2025, 1, 15), location: "24200 Dana Point Harbor, Dana Point, CA" },
+      { id: 5, title: "Event 5", excerpt: "This article dives into the world of artificial intelligence.", image: "e.jpg", date: new Date(2025, 1, 20), location: "24200 Dana Point Harbor, Dana Point, CA" },
     ];
 
-    // Default filters to true (no filtering) in case query params are missing
-    const filteredPacks = allTravelPacks.filter(pack => {
-      const packStartDate = new Date(pack.startDate);
-      const packEndDate = new Date(pack.endDate);
-      
-      // Parse the incoming startDate and endDate
-      const selectedStartDate = startDate ? new Date(startDate) : null;
-      const selectedEndDate = endDate ? new Date(endDate) : null;
-
-      // Date range filter: Check if the pack falls within the selected range
-      const dateMatches = (selectedStartDate && selectedEndDate)
-        ? (packStartDate >= selectedStartDate && packEndDate <= selectedEndDate)
+    // Filter logic
+    const filteredArticles = articles.filter(article => {
+      // Date Range Filter
+      const articleDate = article.date;
+      const matchesDateRange = startDate && endDate
+        ? articleDate >= new Date(startDate) && articleDate <= new Date(endDate)
         : true;
 
-      // Keyword filter: case-insensitive match on title or description
-      const keywordMatches = keywords ? (
-        pack.title.toLowerCase().includes(keywords.toLowerCase()) ||
-        pack.description.toLowerCase().includes(keywords.toLowerCase())
-      ) : true;
+      // Keyword Filter
+      const matchesKeyword = keywords
+        ? article.title.toLowerCase().includes(keywords.toLowerCase()) ||
+          article.excerpt.toLowerCase().includes(keywords.toLowerCase())
+        : true;
 
-      // Location filter: case-insensitive match on location
-      const locationMatches = location ? pack.location.toLowerCase().includes(location.toLowerCase()) : true;
+      // Location Filter
+      const matchesLocation = location
+        ? article.location.toLowerCase().includes(location.toLowerCase())
+        : true;
 
-      // Return true if all filters match
-      return dateMatches && keywordMatches && locationMatches;
+      return matchesDateRange && matchesKeyword && matchesLocation;
     });
 
-    // Return filtered travel packs
-    res.status(200).json(filteredPacks);
+    // Return filtered articles
+    res.status(200).json(filteredArticles);
   } else {
     res.status(405).json({ error: "Method not allowed" });
   }
